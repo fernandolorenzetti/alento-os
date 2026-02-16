@@ -1,111 +1,92 @@
 
 
-# Alento — Sistema Operacional para Empresas de Alto Desempenho
+# Redesign Visual + Tradução para Português
 
-Sistema de gestão baseado no EOS (Entrepreneurial Operating System) para consultores e empresas brasileiras, com dados mockados da "Construtora Lorenzetti".
-
----
-
-## Fase 1 — Design System & Layout Global
-
-- Configurar paleta de cores (gradiente laranja/pêssego, accent #FF6B35, tons de cinza)
-- Configurar tipografia: Inter (body), fonte display para headings, JetBrains Mono (dados/números)
-- Bordas arredondadas 12px/8px/6px, sombras suaves, espaçamento 4px grid
-- Sidebar fixa (240px) com logo "Alento", company badge ("Construtora Lorenzetti · Q1 2026 · Semana 7/13"), navegação com 8 módulos, estados ativo/hover com accent laranja
-- Topbar com título da página, subtítulo e botões de ação
-- Content area transparente sobre gradiente, max-width 1400px
-- Responsividade: sidebar colapsável em tablet, drawer em mobile
+Redesenhar toda a interface do Alento seguindo o estilo visual do modelo de referência (dashboard moderno tipo Salezy), usando laranja (#FF6B35) como cor principal no lugar do azul, e traduzir todos os textos em inglês para português.
 
 ---
 
-## Fase 2 — Dashboard
+## 1 -- Sidebar (AppSidebar + AppSidebarMobile)
 
-- Grid de 6 Health Score Cards (Visão, Pessoas, Dados, Issues, Processos, Tração) com scores dinâmicos e cores condicionais (verde ≥80, laranja 60-79, vermelho <60)
-- Quarter Banner com info do trimestre atual, progresso semanal e stats de Rocks
-- Resumo dos 3 principais Rocks com status badges e progress bars
-- Scorecard resumido (top 5 métricas com dot indicators verde/vermelho)
-- Lista compacta de Issues em aberto com priority badges
+- Adicionar label "Menu Principal" acima da navegacao, com seta de colapso (estilo do modelo)
+- Refinar estilo do item ativo: borda esquerda laranja solida (3px), fundo suave laranja/pessego, texto laranja
+- Hover mais sutil nos itens
+- Traduzir "People Analyzer" para "Analisador de Pessoas"
+- Adicionar secao "Ferramentas" abaixo da navegacao principal (separador + label)
+- Melhorar avatar do usuario com imagem placeholder circular no rodape
+- Badge de notificacao com fundo laranja (ao inves de vermelho destrutivo)
 
----
+## 2 -- Topbar (Topbar.tsx)
 
-## Fase 3 — VTO (Vision/Traction Organizer)
+- Adicionar barra de busca central com placeholder "Buscar rocks, pessoas, issues..." e atalho de teclado (visual only)
+- Adicionar icones a direita: ajuda (?), notificacoes (sino) e avatar do usuario
+- Manter titulo da pagina a esquerda
+- Traduzir subtitle "Level 10 Meeting" para "Reuniao Nivel 10"
 
-- Layout 2 colunas com 6 blocos: Valores Fundamentais, Propósito & Causa, BHAG (10 anos), Visão 3 anos, Plano 1 ano, Questões Estratégicas
-- Conteúdo editável inline com autosave
-- Dados seed com valores, propósito e metas da Construtora Lorenzetti
+## 3 -- Dashboard (Dashboard.tsx) -- Redesign Completo
 
----
+Seguir o layout do modelo:
 
-## Fase 4 — Rocks (Metas Trimestrais)
+- **Boas-vindas**: "Bem-vindo de volta, Fernando!" com data atual abaixo
+- **Filtro e acoes**: botoes "Este Mes" (dropdown) e "Exportar" no canto superior direito
+- **4 Stat Cards em linha**: substituir os 6 health score cards por 4 cards maiores no estilo do modelo:
+  - Total de Rocks (icone, valor grande, tendencia "Do ultimo trimestre")
+  - Pessoas Avaliadas (icone, valor, tendencia)
+  - Metricas no Alvo (icone, valor, tendencia)
+  - Issues em Aberto (icone, valor, tendencia)
+  - Cada card com: icone laranja no canto, titulo, valor em fonte grande, seta de tendencia verde + "Do ultimo mes"
+- **Grafico de barras "Desempenho Trimestral"**: usar Recharts BarChart mostrando dados das 13 semanas com toggle Mensal/Semanal, valor destaque com tendencia
+- **Grafico radial "Visao Geral dos Rocks"**: donut chart com % de conclusao geral, stats de vendas/meta abaixo
+- **Tabela "Atividade Recente"**: ultimas acoes no sistema (issues resolvidos, rocks atualizados) com busca e filtro
 
-- Quarter Banner com stats do trimestre
-- Grid de Rock Cards com avatar do responsável, status badge (ON/OFF TRACK, COMPLETE), progress bar e metadata
-- Modal/drawer de detalhes: descrição, milestones, comentários, histórico de progresso
-- Filtros por responsável e status
-- Botão "+ Adicionar Rock" com validação (máx 5 por pessoa)
-- Seed: 8 rocks distribuídos entre 5 líderes
+## 4 -- Pagina VTO
 
----
+- Traduzir subtitle "Vision/Traction Organizer" para "Organizador de Visao e Tracao"
 
-## Fase 5 — Scorecard (Indicadores Semanais)
+## 5 -- Pagina Rocks
 
-- Tabela full-width com colunas: Indicador + responsável, Meta, últimas 4 semanas, Tendência
-- Valores em JetBrains Mono com cores condicionais (verde = meta atingida, vermelho = não)
-- Ícones de tendência (↑↓→) coloridos
-- Edição inline nas células de valor
-- Seed: 7 métricas semanais
+- Traduzir labels "ON TRACK" para "NO PRAZO", "OFF TRACK" para "EM RISCO", "COMPLETE" para "CONCLUÍDO"
+- Traduzir "Total", "On Track", "Off Track" nos stats
 
----
+## 6 -- Pagina Scorecard
 
-## Fase 6 — Issues / IDS (Identificar · Discutir · Resolver)
+- Traduzir "Tendencia" (ja esta), confirmar todos os headers da tabela
 
-- Kanban 3 colunas com cores distintas (azul, laranja, verde)
-- Issue cards com título, priority badge (HIGH/MED/LOW) e contagem de votos
-- Drag & drop entre colunas
-- Modal de detalhes: descrição, discussão em thread, ação definida, responsável, upvote
-- Seed: 5 issues distribuídos nas colunas
+## 7 -- Pagina Issues
 
----
+- Labels "HIGH", "MED", "LOW" traduzir para "ALTA", "MÉDIA", "BAIXA"
+- "votos" ja esta, confirmar
 
-## Fase 7 — Reunião L10 (Level 10 Meeting)
+## 8 -- Pagina L10 Meeting
 
-- Layout 2 colunas: agenda (70%) + sidebar (30%)
-- Agenda com 7 itens padrão EOS (Check-in, Scorecard, Rocks, Headlines, Todo, IDS, Conclusão) com checkboxes e tempos
-- Timer grande com controles (iniciar/pausar/reset), display em Cal Sans 56px
-- Lista de tarefas da reunião com checkboxes
-- Avaliação da reunião com 10 estrelas clicáveis e score exibido
-- Lista de participantes com status presente/ausente
+- Traduzir subtitle para "Reuniao Nivel 10 · Semana 7"
+- "Ao vivo" ja esta
+- Traduzir "Tarefas" (ja esta)
 
----
+## 9 -- Pagina People Analyzer
 
-## Fase 8 — People Analyzer
+- Traduzir titulo para "Analisador de Pessoas"
+- Traduzir subtitle para "Avaliacao de Valores e GWC"
+- Traduzir GWC badges: "ENTENDE" (Get It), "QUER" (Want It), "CAPACIDADE" (Capacity)
 
-- Grid de Person Cards com avatar, nome, cargo
-- Ratings de Core Values (+ / +/- / -) com cores verde/laranja/vermelho
-- GWC badges (Get it, Want it, Capacity) com ✓/✗
-- Destaque visual para pessoas que não atendem critério EOS (borda vermelha)
-- Modal de detalhes com avaliação completa e notas
-- Seed: 5 pessoas da liderança avaliadas
+## 10 -- Pagina Accountability Chart
 
----
+- Ja esta em portugues, manter
 
-## Fase 9 — Accountability Chart (Organograma)
+## 11 -- Estilos Globais (index.css)
 
-- Organograma hierárquico visual: Visionário → Integrador → Líderes funcionais
-- Nodes com role, nome e conectores visuais
-- Node do Visionário destacado com borda laranja
-- Card de responsabilidades por área em grid 2 colunas
-- Edição de nodes e responsabilidades
-- Seed: estrutura da Construtora Lorenzetti
+- Fundo da area de conteudo mais claro/neutro (tom pessego bem suave, similar ao modelo que usa cinza claro #F8F9FA)
+- Cards com sombra mais sutil e bordas mais arredondadas (16px)
+- Background do body: gradiente mais suave, quase branco com toque pessego
 
 ---
 
-## Notas Técnicas
+## Detalhes Tecnicos
 
-- **Frontend only** nesta fase: todos os dados são mockados com seed data da Construtora Lorenzetti (sem backend/Supabase por enquanto)
-- **State management** via React Context ou Zustand para dados editáveis
-- **Recharts** para gráficos de tendência no Scorecard
-- **Lucide Icons** para toda iconografia
-- **Animações suaves** (transitions 0.2s, fade-in 0.3s, progress bars animadas)
-- **Skeleton loading states** e empty states com ilustrações
+- **Dashboard**: novo layout com Recharts (BarChart e PieChart/RadialBarChart) para graficos
+- **Stat cards**: componente reutilizavel com icone, titulo, valor, tendencia e label
+- **Topbar**: expandir para incluir search bar e icones de acao
+- **Sidebar**: ajustar secoes com labels de grupo
+- **Traducoes**: varrer todos os arquivos para substituir textos em ingles
+- Arquivos modificados: `AppSidebar.tsx`, `AppSidebarMobile.tsx`, `Topbar.tsx`, `Dashboard.tsx`, `VTO.tsx`, `Rocks.tsx`, `Issues.tsx`, `L10Meeting.tsx`, `PeopleAnalyzer.tsx`, `index.css`
 
