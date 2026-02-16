@@ -10,9 +10,12 @@ import {
   Settings,
   HelpCircle,
   ChevronDown,
+  LogOut,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { company, issues } from "@/data/seed";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const mainNav = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
@@ -29,7 +32,14 @@ const toolsNav = [
 ];
 
 export function AppSidebar() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   const progressPercent = Math.round((company.currentWeek / company.totalWeeks) * 100);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <aside className="hidden lg:flex flex-col w-60 min-h-screen border-r border-sidebar-border bg-card/95 backdrop-blur-sm shrink-0">
@@ -101,16 +111,23 @@ export function AppSidebar() {
       </nav>
 
       {/* User section */}
-      <div className="p-4 border-t border-sidebar-border">
+      <div className="p-4 border-t border-sidebar-border space-y-3">
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 rounded-full bg-primary flex items-center justify-center ring-2 ring-primary/20">
             <span className="text-xs font-bold text-primary-foreground">FL</span>
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <p className="text-sm font-medium text-foreground truncate">Fernando L.</p>
             <p className="text-[11px] text-muted-foreground">Visionário</p>
           </div>
         </div>
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+        >
+          <LogOut className="h-4 w-4" />
+          <span>Sair</span>
+        </button>
       </div>
     </aside>
   );
