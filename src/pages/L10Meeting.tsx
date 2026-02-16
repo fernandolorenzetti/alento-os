@@ -1,20 +1,20 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Topbar } from "@/components/layout/Topbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Play, Pause, RotateCcw, Star } from "lucide-react";
-import { people } from "@/data/seed";
+import { people, company } from "@/data/seed";
 
 const agendaItems = [
   { id: 1, name: "Check-in", description: "Compartilhar boas notícias", time: "5 min" },
   { id: 2, name: "Scorecard", description: "Revisão dos indicadores semanais", time: "5 min" },
   { id: 3, name: "Rocks", description: "Status das metas trimestrais", time: "5 min" },
   { id: 4, name: "Headlines", description: "Notícias e atualizações da empresa", time: "5 min" },
-  { id: 5, name: "Todo List", description: "Revisão das tarefas pendentes", time: "5 min" },
+  { id: 5, name: "Lista de Tarefas", description: "Revisão das tarefas pendentes", time: "5 min" },
   { id: 6, name: "IDS", description: "Identificar, Discutir, Resolver issues", time: "60 min" },
-  { id: 7, name: "Conclusão", description: "Recap, rating, cascading messages", time: "5 min" },
+  { id: 7, name: "Conclusão", description: "Recap, avaliação, mensagens em cascata", time: "5 min" },
 ];
 
 export default function L10Meeting() {
@@ -29,7 +29,7 @@ export default function L10Meeting() {
     { id: 2, text: "Agendar visita ao canteiro Parque das Flores", done: false },
     { id: 3, text: "Revisar propostas comerciais pendentes", done: false },
   ]);
-  const [attendance, setAttendance] = useState<Record<string, boolean>>({
+  const [attendance] = useState<Record<string, boolean>>({
     p1: true, p2: true, p3: true, p4: false, p5: true,
   });
 
@@ -49,7 +49,7 @@ export default function L10Meeting() {
 
   return (
     <>
-      <Topbar title="Reunião L10" subtitle="Level 10 Meeting · Semana 7" onMenuClick={onMenuClick} />
+      <Topbar title="Reunião L10" subtitle={`Reunião Nível 10 · Semana ${company.currentWeek}`} onMenuClick={onMenuClick} />
       <main className="flex-1 overflow-y-auto p-4 lg:p-8">
         <div className="max-w-[1400px] mx-auto animate-fade-in grid lg:grid-cols-[1fr_340px] gap-6">
           {/* Agenda */}
@@ -57,7 +57,7 @@ export default function L10Meeting() {
             <Card>
               <CardHeader className="pb-3">
                 <div className="flex items-center gap-3">
-                  <CardTitle className="font-display text-base">Agenda — Semana 7</CardTitle>
+                  <CardTitle className="font-display text-base">Agenda — Semana {company.currentWeek}</CardTitle>
                   <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-success">
                     <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
                     Ao vivo
@@ -105,7 +105,6 @@ export default function L10Meeting() {
 
           {/* Sidebar */}
           <div className="space-y-4">
-            {/* Timer */}
             <Card>
               <CardContent className="p-5 text-center space-y-3">
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -125,7 +124,6 @@ export default function L10Meeting() {
               </CardContent>
             </Card>
 
-            {/* Todos */}
             <Card>
               <CardHeader className="pb-2"><CardTitle className="text-sm font-display">Tarefas</CardTitle></CardHeader>
               <CardContent className="space-y-2">
@@ -141,20 +139,13 @@ export default function L10Meeting() {
               </CardContent>
             </Card>
 
-            {/* Rating */}
             <Card>
               <CardHeader className="pb-2"><CardTitle className="text-sm font-display">Avaliação da Reunião</CardTitle></CardHeader>
               <CardContent className="text-center space-y-2">
                 <div className="flex justify-center gap-1">
                   {Array.from({ length: 10 }, (_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setRating(i + 1)}
-                      className="p-0.5 transition-colors"
-                    >
-                      <Star
-                        className={`h-5 w-5 ${i < rating ? "fill-primary text-primary" : "text-border"}`}
-                      />
+                    <button key={i} onClick={() => setRating(i + 1)} className="p-0.5 transition-colors">
+                      <Star className={`h-5 w-5 ${i < rating ? "fill-primary text-primary" : "text-border"}`} />
                     </button>
                   ))}
                 </div>

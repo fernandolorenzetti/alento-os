@@ -5,6 +5,12 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { rocks, people, company } from "@/data/seed";
 
+const statusLabels: Record<string, string> = {
+  on_track: "NO PRAZO",
+  off_track: "EM RISCO",
+  complete: "CONCLUÍDO",
+};
+
 export default function Rocks() {
   const { onMenuClick } = useOutletContext<{ onMenuClick: () => void }>();
   const onTrack = rocks.filter((r) => r.status === "on_track").length;
@@ -16,7 +22,6 @@ export default function Rocks() {
       <Topbar title="Rocks" subtitle="Metas Trimestrais" onMenuClick={onMenuClick} />
       <main className="flex-1 overflow-y-auto p-4 lg:p-8">
         <div className="max-w-[1400px] mx-auto space-y-6 animate-fade-in">
-          {/* Stats */}
           <Card className="border-l-4 border-l-primary bg-gradient-to-r from-secondary/60 to-card">
             <CardContent className="p-5 flex flex-wrap gap-6 items-center">
               <div>
@@ -25,18 +30,17 @@ export default function Rocks() {
               </div>
               <div className="flex gap-6 ml-auto text-center">
                 <div><span className="font-display text-2xl font-bold">{rocks.length}</span><p className="text-[10px] uppercase tracking-wider text-muted-foreground">Total</p></div>
-                <div><span className="font-display text-2xl font-bold text-success">{onTrack}</span><p className="text-[10px] uppercase tracking-wider text-muted-foreground">On Track</p></div>
-                <div><span className="font-display text-2xl font-bold text-destructive">{offTrack}</span><p className="text-[10px] uppercase tracking-wider text-muted-foreground">Off Track</p></div>
+                <div><span className="font-display text-2xl font-bold text-success">{onTrack}</span><p className="text-[10px] uppercase tracking-wider text-muted-foreground">No Prazo</p></div>
+                <div><span className="font-display text-2xl font-bold text-destructive">{offTrack}</span><p className="text-[10px] uppercase tracking-wider text-muted-foreground">Em Risco</p></div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Rock Cards Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {rocks.map((rock) => {
               const owner = people.find((p) => p.id === rock.ownerId);
               return (
-                <Card key={rock.id} className="hover:shadow-card-hover transition-shadow cursor-pointer">
+                <Card key={rock.id} className="hover:shadow-md transition-shadow cursor-pointer">
                   <CardContent className="p-5 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -56,7 +60,7 @@ export default function Rocks() {
                               : "border-destructive/40 text-destructive"
                           }`}
                         >
-                          {rock.status === "on_track" ? "ON TRACK" : rock.status === "complete" ? "COMPLETE" : "OFF TRACK"}
+                          {statusLabels[rock.status]}
                         </Badge>
                       </div>
                     </div>

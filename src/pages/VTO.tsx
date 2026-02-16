@@ -8,7 +8,7 @@ export default function VTO() {
 
   return (
     <>
-      <Topbar title="VTO" subtitle="Vision/Traction Organizer" onMenuClick={onMenuClick} />
+      <Topbar title="VTO" subtitle="Organizador de Visão e Tração" onMenuClick={onMenuClick} />
       <main className="flex-1 overflow-y-auto p-4 lg:p-8">
         <div className="max-w-[1400px] mx-auto animate-fade-in grid md:grid-cols-2 gap-6">
           <Card>
