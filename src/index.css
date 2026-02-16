@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 25 100% 97%;
+    --background: 30 50% 98%;
     --foreground: 0 0% 10%;
 
     --card: 0 0% 100%;
@@ -16,10 +16,10 @@
     --primary: 16 100% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 25 100% 93%;
+    --secondary: 25 100% 95%;
     --secondary-foreground: 0 0% 10%;
 
-    --muted: 0 0% 96%;
+    --muted: 30 20% 96%;
     --muted-foreground: 0 0% 42%;
 
     --accent: 36 100% 65%;
@@ -34,24 +34,24 @@
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 10%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
+    --border: 0 0% 91%;
+    --input: 0 0% 91%;
     --ring: 16 100% 60%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 0 0% 42%;
     --sidebar-primary: 16 100% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 25 100% 97%;
+    --sidebar-accent: 25 80% 96%;
     --sidebar-accent-foreground: 16 100% 60%;
-    --sidebar-border: 0 0% 90%;
+    --sidebar-border: 0 0% 92%;
     --sidebar-ring: 16 100% 60%;
 
-    --gradient-start: 25 100% 97%;
-    --gradient-mid: 16 100% 93%;
-    --gradient-end: 25 100% 88%;
+    --gradient-start: 30 60% 99%;
+    --gradient-mid: 25 50% 97%;
+    --gradient-end: 20 40% 95%;
 
     --tertiary: 0 0% 62%;
   }
@@ -110,7 +110,7 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     background: linear-gradient(
-      135deg,
+      145deg,
       hsl(var(--gradient-start)),
       hsl(var(--gradient-mid)),
       hsl(var(--gradient-end))

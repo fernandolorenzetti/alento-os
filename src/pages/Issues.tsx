@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Topbar } from "@/components/layout/Topbar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { issues as seedIssues, people, type Issue } from "@/data/seed";
+
+const priorityLabels: Record<string, string> = {
+  HIGH: "ALTA",
+  MED: "MÉDIA",
+  LOW: "BAIXA",
+};
 
 const columns = [
   { key: "identify" as const, label: "Identificar", color: "bg-blue-50 dark:bg-blue-950/30", textColor: "text-blue-600", icon: "◉" },
@@ -25,7 +31,7 @@ export default function Issues() {
               const colIssues = issueList.filter((i) => i.column === col.key);
               return (
                 <div key={col.key}>
-                  <div className={`rounded-t-lg px-4 py-3 ${col.color}`}>
+                  <div className={`rounded-t-xl px-4 py-3 ${col.color}`}>
                     <span className={`text-sm font-display font-bold ${col.textColor}`}>
                       {col.icon} {col.label} · {colIssues.length}
                     </span>
@@ -48,9 +54,9 @@ export default function Issues() {
                                     : "border-muted-foreground/40 text-muted-foreground"
                                 }`}
                               >
-                                {issue.priority}
+                                {priorityLabels[issue.priority]}
                               </Badge>
-                              <span className="text-[11px] text-muted-foreground">▲ {issue.votes}</span>
+                              <span className="text-[11px] text-muted-foreground">▲ {issue.votes} votos</span>
                               <span className="ml-auto text-[11px] text-muted-foreground">{owner?.initials}</span>
                             </div>
                           </CardContent>
