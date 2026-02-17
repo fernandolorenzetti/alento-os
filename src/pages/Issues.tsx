@@ -19,7 +19,41 @@ const columns = [
 
 export default function Issues() {
   const { onMenuClick } = useOutletContext<{ onMenuClick: () => void }>();
-  const [issueList] = useState<Issue[]>(seedIssues);
+  const [issueList, setIssueList] = useState<Issue[]>(seedIssues);
+  const [draggedId, setDraggedId] = useState<string | null>(null);
+  const [dragOverCol, setDragOverCol] = useState<string | null>(null);
+
+  const handleDragStart = (e: React.DragEvent, id: string) => {
+    setDraggedId(id);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragOver = (e: React.DragEvent, colKey: string) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    setDragOverCol(colKey);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverCol(null);
+  };
+
+  const handleDrop = (e: React.DragEvent, colKey: Issue["column"]) => {
+    e.preventDefault();
+    setDragOverCol(null);
+    if (!draggedId) return;
+    setIssueList((prev) =>
+      prev.map((issue) =>
+        issue.id === draggedId ? { ...issue, column: colKey } : issue
+      )
+    );
+    setDraggedId(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedId(null);
+    setDragOverCol(null);
+  };
 
   return (
     <>
@@ -29,18 +63,36 @@ export default function Issues() {
           <div className="grid md:grid-cols-3 gap-4">
             {columns.map((col) => {
               const colIssues = issueList.filter((i) => i.column === col.key);
+              const isOver = dragOverCol === col.key;
               return (
-                <div key={col.key}>
+                <div
+                  key={col.key}
+                  onDragOver={(e) => handleDragOver(e, col.key)}
+                  onDragLeave={handleDragLeave}
+                  onDrop={(e) => handleDrop(e, col.key)}
+                  className={`rounded-xl transition-all duration-200 ${
+                    isOver ? "ring-2 ring-primary/50 bg-primary/5" : ""
+                  }`}
+                >
                   <div className={`rounded-t-xl px-4 py-3 ${col.color}`}>
                     <span className={`text-sm font-display font-bold ${col.textColor}`}>
                       {col.icon} {col.label} · {colIssues.length}
                     </span>
                   </div>
-                  <div className="space-y-2 pt-2">
+                  <div className="space-y-2 pt-2 min-h-[80px]">
                     {colIssues.map((issue) => {
                       const owner = people.find((p) => p.id === issue.ownerId);
+                      const isDragging = draggedId === issue.id;
                       return (
-                        <Card key={issue.id} className="hover:border-primary/40 transition-colors cursor-pointer">
+                        <Card
+                          key={issue.id}
+                          draggable
+                          onDragStart={(e) => handleDragStart(e, issue.id)}
+                          onDragEnd={handleDragEnd}
+                          className={`hover:border-primary/40 transition-all cursor-grab active:cursor-grabbing ${
+                            isDragging ? "opacity-40 scale-95" : ""
+                          }`}
+                        >
                           <CardContent className="p-3.5 space-y-2">
                             <p className="text-sm font-medium leading-snug">{issue.title}</p>
                             <div className="flex items-center gap-2">
